@@ -4,8 +4,8 @@ package main
 import (
 	"log"
 	"strings"
-  "syscall/js"
-  "github.com/k0kubun/sqldef/schema"
+	"syscall/js"
+	"github.com/k0kubun/sqldef/schema"
 )
 
 func diff(this js.Value, args []js.Value) interface {} {
@@ -23,7 +23,7 @@ func diff(this js.Value, args []js.Value) interface {} {
 
 	// TODO: Need to figure out how to pass error in callback
 	if err != nil {
-    log.Fatal(err)
+		log.Fatal(err)
 	}
 	_ = err
 	return true
@@ -32,6 +32,6 @@ func diff(this js.Value, args []js.Value) interface {} {
 func main() {
 	c := make(chan bool)
 	// I wish this wasn't global!
-  js.Global().Set("_SQLDEF", js.FuncOf(diff))
-  <-c
+	js.Global().Set("_SQLDEF", js.FuncOf(diff))
+	<-c
 }
