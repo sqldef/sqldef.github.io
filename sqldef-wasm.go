@@ -1,8 +1,8 @@
+// +build js
 // This is a light wasm wraper around just the DDL conversion stuff
 package main
  
 import (
-	"log"
 	"strings"
 	"syscall/js"
 	"github.com/k0kubun/sqldef/schema"
@@ -19,14 +19,15 @@ func diff(this js.Value, args []js.Value) interface {} {
 	}
 	ddls, err := schema.GenerateIdempotentDDLs(generatorMode, desiredDDLs, currentDDLs)
 	out := strings.Join(ddls, ";\n")
-	callback.Invoke(js.Null(), out)
 
 	// TODO: Need to figure out how to pass error in callback
 	if err != nil {
-		log.Fatal(err)
+		callback.Invoke(err.Error(), out)
+		return false
+	} else {
+		callback.Invoke(js.Null(), out)
+		return true
 	}
-	_ = err
-	return true
 }
  
 func main() {
