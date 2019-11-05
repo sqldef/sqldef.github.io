@@ -10,7 +10,7 @@ window.sqldef = async (dbType, desiredDDLs, currentDDLs) => {
     return new Promise((resolve, reject) => {
       _SQLDEF(dbType, desiredDDLs, currentDDLs, (err, ret) => {
         if (err) {
-          return reject(err)
+          return reject(new Error(err))
         }
         resolve(ret)
       })

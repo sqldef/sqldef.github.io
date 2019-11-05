@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
+  <title>sqldef</title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
   <head>
     <meta charset="utf-8">
     <script src="wasm_exec.js"></script>
     <script src="sqldef_browser.js"></script>
     <style>
       body {
-        font-family: sans-serif;
+        font-family: 'Raleway', sans-serif;
+        font-size: 20px;
         width: 960px;
         margin: 20px auto;
         color: #fff;
@@ -23,11 +26,28 @@
       pre {
         display: none;
       }
+      #error {
+        padding: 1em;
+        background: IndianRed;
+        color: DarkRed;
+        border: 1px solid DarkRed;
+      }
+      a, a:visited, a:active {
+        color: inherit;
+      }
+      a:hover {
+        color: IndianRed;
+      }
     </style>
   </head>
   <body>
+    <h1>sqldef</h1>
+    <img src="https://github.com/k0kubun/sqldef/raw/master/demo.gif" alt="screen capture" />
+    <h2>What is it?</h2>
+    <p>sqldef is a <a href="https://github.com/k0kubun/sqldef">CLI tool</a>, <a href="https://github.com/sqldef/sqldef.github.io">webasm library</a>, and <a href="https://github.com/sqldef/node-sqldef">nodejs tool/library</a> for diffing SQL schema. You can use it to manage migration of PostgreSQL and MySQL databases, using regular SQL DDL.</p>
+    <h2>Demo</h2>
     <p>You can diff these 2 schemas:</p>
-
+<pre id="error"></pre>
 <textarea id="inputA" rows="10">
 CREATE TABLE user (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -58,10 +78,17 @@ const dbType = document.getElementById('dbType')
 const inputA = document.getElementById('inputA')
 const inputB = document.getElementById('inputB')
 const output = document.getElementById('output')
+const error = document.getElementById('error')
 
 button.addEventListener('click', async () => {
   output.style.display = 'none'
-  output.innerHTML = await window.sqldef(dbType.value, inputB.value, inputA.value)
+  error.style.display = 'none'
+  try {
+    output.innerHTML = await window.sqldef(dbType.value, inputB.value, inputA.value)
+  } catch (e) {
+    error.style.display = 'block'
+    error.innerHTML = e.message
+  }
   output.style.display = 'block'
 })
 </script>
