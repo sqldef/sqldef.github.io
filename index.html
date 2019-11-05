@@ -85,11 +85,11 @@ button.addEventListener('click', async () => {
   error.style.display = 'none'
   try {
     output.innerHTML = await window.sqldef(dbType.value, inputB.value, inputA.value)
+    output.style.display = 'block'
   } catch (e) {
     error.style.display = 'block'
     error.innerHTML = e.message
   }
-  output.style.display = 'block'
 })
 </script>
 
