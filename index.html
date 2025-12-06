@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <title>sqldef</title>
+  <title>sqldef.github.io</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
   <head>
     <meta charset="utf-8">
@@ -20,12 +20,17 @@
         background: #eee;
         color: #000;
         padding: 20px;
+      }
+      textarea {
         width: 100%;
+        box-sizing: border-box;
       }
       pre {
         display: none;
+        width: 100%;
+        box-sizing: border-box;
       }
-      #error {
+      .error {
         padding: 1em;
         background: IndianRed;
         color: DarkRed;
@@ -39,15 +44,40 @@
       }
       h4.schema-header {
         margin-bottom: 0.7em;
+        margin-top: 1em;
+      }
+      .schema-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .schema-pane {
+        flex: 1;
+      }
+      .diff-section {
+        margin-bottom: 20px;
+      }
+      .diff-label {
+        font-weight: bold;
+        margin-bottom: 0.5em;
+      }
+      select {
+        font-size: 18px;
+        padding: 8px;
+        margin-bottom: 20px;
+      }
+      footer {
+        margin-top: 100px;
+        text-align: center;
       }
     </style>
   </head>
   <body>
     <h1>sqldef</h1>
-    <img src="https://github.com/k0kubun/sqldef/raw/master/demo.gif" alt="screen capture" />
-
-    <h2>What is it?</h2>
-    <p>sqldef is a <a href="https://github.com/k0kubun/sqldef">CLI tool</a>, <a href="https://github.com/sqldef/sqldef.github.io">webasm library</a>, and <a href="https://github.com/sqldef/node-sqldef">nodejs tool/library</a> for diffing SQL schema. You can use it to manage migration of PostgreSQL and MySQL databases, using regular SQL DDL.</p>
+    <p>sqldef is a <a href="https://github.com/sqldef/sqldef">CLI tool</a>, <a
+        href="https://github.com/sqldef/sqldef.github.io">Wasm library</a>, and <a
+        href="https://github.com/sqldef/node-sqldef">nodejs tool/library</a> for diffing two SQL schemas. You can use it to
+      manage migration of PostgreSQL, MySQL, SQLite3, and SQL Server databases, using regular SQL DDLs.</p>
 
     <h2>Demo</h2>
     <p>You can generate DDLs to update the DB schema:</p>
@@ -56,50 +86,141 @@
       <select id="dbType">
         <option value="mysql">MySQL</option>
         <option value="postgres">PostgreSQL</option>
+        <option value="sqlite3">SQLite3</option>
+        <option value="mssql">SQL Server</option>
       </select>
-      <button id="buttonDiff">DIFF</button>
     </div>
 
-    <pre id="output"></pre>
-    <pre id="error"></pre>
-
-<h4 class="schema-header">Current schema</h4>
-<textarea id="inputA" rows="10">
-CREATE TABLE user (
+    <div class="schema-row">
+      <div class="schema-pane">
+        <h4 class="schema-header">Current schema</h4>
+        <textarea id="inputA" rows="10">CREATE TABLE users (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(128) DEFAULT 'konsumer'
-) Engine=InnoDB DEFAULT CHARSET=utf8mb4;
-</textarea>
-
-<h4 class="schema-header">New schema</h4>
-<textarea id="inputB" rows="10">
-CREATE TABLE user (
+) Engine=InnoDB DEFAULT CHARSET=utf8mb4;</textarea>
+</div>
+<div class="schema-pane">
+  <h4 class="schema-header">Desired schema</h4>
+  <textarea id="inputB" rows="10">CREATE TABLE users (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(128) DEFAULT 'konsumer',
   created_at DATETIME NOT NULL
-) Engine=InnoDB DEFAULT CHARSET=utf8mb4;
-</textarea>
+) Engine=InnoDB DEFAULT CHARSET=utf8mb4;</textarea>
+</div>
+</div>
+
+<div class="diff-section">
+  <div class="diff-label">Up (current → desired)</div>
+  <pre id="outputUp"></pre>
+  <pre id="errorUp" class="error"></pre>
+</div>
+
+<div class="diff-section">
+  <div class="diff-label">Down (desired → current)</div>
+  <pre id="outputDown"></pre>
+  <pre id="errorDown" class="error"></pre>
+</div>
 
 <script>
-const button = document.getElementById('buttonDiff')
 const dbType = document.getElementById('dbType')
 const inputA = document.getElementById('inputA')
 const inputB = document.getElementById('inputB')
-const output = document.getElementById('output')
-const error = document.getElementById('error')
+              const outputUp = document.getElementById('outputUp')
+              const errorUp = document.getElementById('errorUp')
+              const outputDown = document.getElementById('outputDown')
+              const errorDown = document.getElementById('errorDown')
 
-button.addEventListener('click', async () => {
-  output.style.display = 'none'
-  error.style.display = 'none'
+              const schemaExamples = {
+                mysql: {
+                  current: `CREATE TABLE users (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(128) DEFAULT 'konsumer'
+) Engine=InnoDB DEFAULT CHARSET=utf8mb4;`,
+                  desired: `CREATE TABLE users (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(128) DEFAULT 'konsumer',
+  created_at DATETIME NOT NULL
+) Engine=InnoDB DEFAULT CHARSET=utf8mb4;`
+                },
+                postgres: {
+                  current: `CREATE TABLE users (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(128) DEFAULT 'konsumer'
+);`,
+                  desired: `CREATE TABLE users (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(128) DEFAULT 'konsumer',
+  created_at TIMESTAMP NOT NULL
+);`
+                },
+                sqlite3: {
+                  current: `CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT DEFAULT 'konsumer'
+);`,
+                  desired: `CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT DEFAULT 'konsumer',
+  created_at TEXT NOT NULL
+);`
+                },
+                mssql: {
+                  current: `CREATE TABLE users (
+  id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  name NVARCHAR(128) DEFAULT 'konsumer'
+);`,
+                  desired: `CREATE TABLE users (
+  id BIGINT IDENTITY(1,1) PRIMARY KEY,
+  name NVARCHAR(128) DEFAULT 'konsumer',
+  created_at DATETIME NOT NULL
+);`
+                }
+              }
+
+              async function runDiff() {
+                // Run up diff (current -> desired)
+                outputUp.style.display = 'none'
+                errorUp.style.display = 'none'
+                try {
+                  const result = await window.sqldef(dbType.value, inputB.value, inputA.value)
+                  outputUp.innerHTML = result
+                  outputUp.style.display = 'block'
+                } catch (e) {
+                  errorUp.style.display = 'block'
+                  errorUp.innerHTML = e.message
+                }
+
+              // Run down diff (desired -> current)
+              outputDown.style.display = 'none'
+              errorDown.style.display = 'none'
   try {
-    output.innerHTML = await window.sqldef(dbType.value, inputB.value, inputA.value)
-    output.style.display = 'block'
+    const result = await window.sqldef(dbType.value, inputA.value, inputB.value)
+    outputDown.innerHTML = result
+    outputDown.style.display = 'block'
   } catch (e) {
-    error.style.display = 'block'
-    error.innerHTML = e.message
+    errorDown.style.display = 'block'
+    errorDown.innerHTML = e.message
   }
+              }
+
+              dbType.addEventListener('change', () => {
+                const examples = schemaExamples[dbType.value]
+                if (examples) {
+                  inputA.value = examples.current
+                  inputB.value = examples.desired
+                }
+                runDiff()
 })
+
+  inputA.addEventListener('input', runDiff)
+  inputB.addEventListener('input', runDiff)
+
+  // Run diff on initial load
+  runDiff()
 </script>
 
+  <footer>
+    <p><a href="https://github.com/sqldef">https://github.com/sqldef</a></p>
+  </footer>
   </body>
 </html>

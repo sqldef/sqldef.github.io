@@ -6,3 +6,7 @@ dev: sqldef.wasm
 	@echo "Starting HTTP server at http://localhost:6543"
 	@python3 -m http.server 6543
 .PHONEY: devk
+
+format:
+	go fmt .
+.PHONEY: format
