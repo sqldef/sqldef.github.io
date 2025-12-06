@@ -1,0 +1,8 @@
+github.com/goccy/go-yaml v1.19.0 h1:EmkZ9RIsX+Uq4DYFowegAuJo8+xdX3T/2dwNPXbxEYE=
+github.com/goccy/go-yaml v1.19.0/go.mod h1:XBurs7gK8ATbW4ZPGKgcbrY1Br56PdM69F7LkFRi1kA=
+github.com/sqldef/sqldef/v3 v3.7.2 h1:OrkrU9lk0sN2osRN2cdulC9pTeiqmv4MEQFwg21puIA=
+github.com/sqldef/sqldef/v3 v3.7.2/go.mod h1:wUTDOPzCMqwR3sLsoVV4J99D6cpxzu9iy2iAFTu22a8=
+github.com/sqldef/sqldef/v3 v3.7.4 h1:BKxfzt1/OUG5Ke4U8bawUleKl9yo5ObhaJlgUa5mmq8=
+github.com/sqldef/sqldef/v3 v3.7.4/go.mod h1:yrTNAMDgx+NNL1Iu7X6eOVA3zxJ7vSt3apkdn1RDHAI=
+golang.org/x/sync v0.18.0 h1:kr88TuHDroi+UVf+0hZnirlk8o8T+4MrK6mr60WkH/I=
+golang.org/x/sync v0.18.0/go.mod h1:9KTHXmSnoGruLpwFjVSX0lNNA75CykiMECbovNTZqGI=
