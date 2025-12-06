@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html>
-<title>sqldef.github.io</title>
-<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <link rel="icon" type="image/png" href="sqldef.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sqldef.github.io</title>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sqldef.github.io/">
+  <meta property="og:title" content="sqldef">
+  <meta property="og:description" content="Idempotent schema management for MySQL, PostgreSQL, SQLite, and SQL Server">
+  <meta property="og:image" content="https://sqldef.github.io/sqldef512.png">
+  
+  <link rel="icon" type="image/png" sizes="128x128" href="sqldef128.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="sqldef256.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="sqldef512.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="sqldef128.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="sqldef256.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="sqldef512.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
   <script src="wasm_exec.js"></script>
   <script src="sqldef_browser.js"></script>
   <style>
@@ -89,7 +103,7 @@
       text-align: center;
     }
   </style>
-  </head>
+</head>
 
 <body>
   <h1>sqldef</h1>
@@ -127,7 +141,7 @@
   created_at DATETIME NOT NULL
 ) Engine=InnoDB DEFAULT CHARSET=utf8mb4;</textarea>
     </div>
-    </div>
+  </div>
 
   <div class="diff-section">
     <div class="diff-label">Up (current → desired)</div>
