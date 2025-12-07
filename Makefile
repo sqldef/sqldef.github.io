@@ -5,7 +5,7 @@ sqldef.wasm: go.mod go.sum sqldef-wasm.go
 dev: sqldef.wasm
 	@echo "Starting HTTP server at http://localhost:6543"
 	@python3 -m http.server 6543
-.PHONEY: devk
+.PHONEY: dev
 
 format:
 	go fmt .
@@ -15,3 +15,7 @@ update:
 	go get -u -t .
 	go mod tidy
 .PHONY: update
+
+lint:
+	GOOS=js GOARCH=wasm go vet .
+.PHONY: lint
