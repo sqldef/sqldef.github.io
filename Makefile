@@ -1,5 +1,7 @@
-sqldef.wasm: go.mod go.sum sqldef-wasm.go
+sqldef.wasm: go.mod go.sum sqldef-wasm.go wasm_exec.js
 	GOOS=js GOARCH=wasm go build $(GOFLAGS) -o sqldef.wasm ./sqldef-wasm.go
+
+wasm_exec.js:
 	cp $$(go env GOROOT)/lib/wasm/wasm_exec.js .
 
 dev: sqldef.wasm
