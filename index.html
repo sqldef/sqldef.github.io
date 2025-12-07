@@ -10,7 +10,7 @@
   <meta property="og:title" content="sqldef">
   <meta property="og:description" content="Idempotent schema management for MySQL, PostgreSQL, SQLite, and SQL Server">
   <meta property="og:image" content="https://sqldef.github.io/sqldef512.png">
-  
+
   <link rel="icon" type="image/png" sizes="128x128" href="sqldef128.png">
   <link rel="icon" type="image/png" sizes="256x256" href="sqldef256.png">
   <link rel="icon" type="image/png" sizes="512x512" href="sqldef512.png">
@@ -156,13 +156,13 @@
   </div>
 
   <script>
-    const dbType = document.getElementById('dbType')
-    const inputA = document.getElementById('inputA')
-    const inputB = document.getElementById('inputB')
-    const outputUp = document.getElementById('outputUp')
-    const errorUp = document.getElementById('errorUp')
-    const outputDown = document.getElementById('outputDown')
-    const errorDown = document.getElementById('errorDown')
+      const dbType = document.getElementById('dbType');
+      const inputA = document.getElementById('inputA');
+      const inputB = document.getElementById('inputB');
+      const outputUp = document.getElementById('outputUp');
+      const errorUp = document.getElementById('errorUp');
+      const outputDown = document.getElementById('outputDown');
+      const errorDown = document.getElementById('errorDown');
 
       const schemaExamples = {
         mysql: {
@@ -208,49 +208,49 @@
   name NVARCHAR(128) DEFAULT 'konsumer',
   created_at DATETIME NOT NULL
 );`
-      }
-    }
+      },
+    };
 
       async function runDiff() {
-        // Run up diff (current -> desired)
-        outputUp.style.display = 'none'
-        errorUp.style.display = 'none'
-        try {
-          const result = await window.sqldef(dbType.value, inputB.value, inputA.value)
-          outputUp.innerHTML = result
-          outputUp.style.display = 'block'
-        } catch (e) {
-          errorUp.style.display = 'block'
-          errorUp.innerHTML = e.message
-        }
+      // Run up diff (current -> desired)
+      outputUp.style.display = 'none';
+      errorUp.style.display = 'none';
+      try {
+        const result = await window.sqldef(dbType.value, inputB.value, inputA.value);
+        outputUp.innerHTML = result;
+        outputUp.style.display = 'block';
+      } catch (e) {
+        errorUp.style.display = 'block';
+        errorUp.innerHTML = e.message;
+      }
 
       // Run down diff (desired -> current)
-      outputDown.style.display = 'none'
-      errorDown.style.display = 'none'
+      outputDown.style.display = 'none';
+      errorDown.style.display = 'none';
       try {
-        const result = await window.sqldef(dbType.value, inputA.value, inputB.value)
-        outputDown.innerHTML = result
-        outputDown.style.display = 'block'
+        const result = await window.sqldef(dbType.value, inputA.value, inputB.value);
+        outputDown.innerHTML = result;
+        outputDown.style.display = 'block';
       } catch (e) {
-        errorDown.style.display = 'block'
-        errorDown.innerHTML = e.message
+        errorDown.style.display = 'block';
+        errorDown.innerHTML = e.message;
       }
     }
 
       dbType.addEventListener('change', () => {
-        const examples = schemaExamples[dbType.value]
-        if (examples) {
-          inputA.value = examples.current
-          inputB.value = examples.desired
-        }
-        runDiff()
-      })
+      const examples = schemaExamples[dbType.value];
+      if (examples) {
+        inputA.value = examples.current;
+        inputB.value = examples.desired;
+      }
+      runDiff();
+    })
 
-      inputA.addEventListener('input', runDiff)
-      inputB.addEventListener('input', runDiff)
+      inputA.addEventListener('input', runDiff);
+      inputB.addEventListener('input', runDiff);
 
       // Run diff on initial load
-      runDiff()
+      runDiff();
     </script>
 
   <footer>
