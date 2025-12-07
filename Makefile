@@ -10,3 +10,8 @@ dev: sqldef.wasm
 format:
 	go fmt .
 .PHONEY: format
+
+update:
+	go get -u -t .
+	go mod tidy
+.PHONY: update
