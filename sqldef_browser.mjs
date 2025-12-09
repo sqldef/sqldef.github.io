@@ -37,3 +37,13 @@ export async function sqldef(dbType, desiredDDLs, currentDDLs) {
     });
   });
 }
+
+export async function getVersion() {
+  const SQLDEF = await getInstance();
+  return SQLDEF.getVersion();
+}
+
+export async function getRevision() {
+  const SQLDEF = await getInstance();
+  return SQLDEF.getRevision();
+}

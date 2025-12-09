@@ -1,4 +1,4 @@
-import { sqldef } from "./sqldef_browser.mjs";
+import { sqldef, getVersion } from "./sqldef_browser.mjs";
 
 const dbType = document.getElementById("dbType");
 const inputA = document.getElementById("inputA");
@@ -103,3 +103,12 @@ inputB.addEventListener("input", runDiff);
 
 // Run diff on initial load
 runDiff();
+
+// Display version info
+(async () => {
+  const version = await getVersion();
+  const versionEl = document.getElementById("version");
+  if (versionEl) {
+    versionEl.textContent = `powered by sqldef v${version}`;
+  }
+})();

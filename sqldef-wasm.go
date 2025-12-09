@@ -8,6 +8,7 @@ import (
 	"strings"
 	"syscall/js"
 
+	"github.com/sqldef/sqldef/v3"
 	"github.com/sqldef/sqldef/v3/database"
 	"github.com/sqldef/sqldef/v3/parser"
 	"github.com/sqldef/sqldef/v3/schema"
@@ -61,6 +62,12 @@ func main() {
 
 	exports := map[string]any{
 		"diff": js.FuncOf(sqldefDiff),
+		"getVersion": js.FuncOf(func(this js.Value, args []js.Value) any {
+			return sqldef.GetVersion()
+		}),
+		"getRevision": js.FuncOf(func(this js.Value, args []js.Value) any {
+			return sqldef.GetRevision()
+		}),
 	}
 	js.Global().Set("_SQLDEF", js.ValueOf(exports))
 
