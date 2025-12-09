@@ -21,7 +21,7 @@ const getInstance = async () => {
   return SQLDEF;
 };
 
-export async function sqldef(dbType, desiredDDLs, currentDDLs) {
+export async function sqldef(dbType, desiredDDLs, currentDDLs, enableDrop = false) {
   if (typeof WebAssembly === "undefined") {
     throw new Error("WebAssembly is not supported in your browser");
   }
@@ -29,7 +29,7 @@ export async function sqldef(dbType, desiredDDLs, currentDDLs) {
   const SQLDEF = await getInstance();
 
   return new Promise((resolve, reject) => {
-    SQLDEF.diff(dbType, desiredDDLs, currentDDLs, (err, ret) => {
+    SQLDEF.diff(dbType, desiredDDLs, currentDDLs, enableDrop, (err, ret) => {
       if (err) {
         return reject(new Error(err));
       }

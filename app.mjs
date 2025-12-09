@@ -1,6 +1,7 @@
 import { sqldef, getVersion } from "./sqldef_browser.mjs";
 
 const dbType = document.getElementById("dbType");
+const enableDrop = document.getElementById("enableDrop");
 const inputA = document.getElementById("inputA");
 const inputB = document.getElementById("inputB");
 const outputUp = document.getElementById("outputUp");
@@ -63,7 +64,8 @@ async function runDiff() {
     const result = await sqldef(
       dbType.value,
       inputB.value,
-      inputA.value
+      inputA.value,
+      enableDrop.checked
     );
     outputUp.innerHTML = result;
     outputUp.style.display = "block";
@@ -79,7 +81,8 @@ async function runDiff() {
     const result = await sqldef(
       dbType.value,
       inputA.value,
-      inputB.value
+      inputB.value,
+      enableDrop.checked
     );
     outputDown.innerHTML = result;
     outputDown.style.display = "block";
@@ -100,6 +103,7 @@ dbType.addEventListener("change", () => {
 
 inputA.addEventListener("input", runDiff);
 inputB.addEventListener("input", runDiff);
+enableDrop.addEventListener("change", runDiff);
 
 // Run diff on initial load
 runDiff();

@@ -14,12 +14,13 @@ import (
 	"github.com/sqldef/sqldef/v3/schema"
 )
 
-// diff function (mode: string, desiredDDLs: string, currentDDLs: string, callback: (err: string | null, result: string | null): void)
+// diff function (mode: string, desiredDDLs: string, currentDDLs: string, enableDrop: bool, callback: (err: string | null, result: string | null): void)
 func sqldefDiff(this js.Value, args []js.Value) any {
 	mode := args[0].String()
 	desiredDDLs := args[1].String()
 	currentDDLs := args[2].String()
-	callback := args[3]
+	enableDrop := args[3].Bool()
+	callback := args[4]
 
 	generatorMode := schema.GeneratorModeMysql
 	parserMode := parser.ParserModeMysql
@@ -42,7 +43,10 @@ func sqldefDiff(this js.Value, args []js.Value) any {
 	}
 
 	sqlParser := database.NewParser(parserMode)
-	config := database.GeneratorConfig{}
+	config := database.GeneratorConfig{
+		EnableDrop:         enableDrop,
+		LegacyIgnoreQuotes: false,
+	}
 	defaultSchema := ""
 
 	ddls, err := schema.GenerateIdempotentDDLs(generatorMode, sqlParser, desiredDDLs, currentDDLs, config, defaultSchema)
