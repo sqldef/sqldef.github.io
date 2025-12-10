@@ -19,6 +19,7 @@
   <link rel="apple-touch-icon" sizes="512x512" href="sqldef512.png">
 
   <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
 
   <style>
     body {
@@ -44,9 +45,13 @@
     }
 
     pre {
-      display: none;
       width: 100%;
       box-sizing: border-box;
+      min-height: 60px;
+    }
+
+    pre.hidden {
+      display: none;
     }
 
     .error {
@@ -144,14 +149,14 @@
 
   <div class="diff-section">
     <div class="diff-label">Up (current → desired)</div>
-    <pre id="outputUp"></pre>
-    <pre id="errorUp" class="error"></pre>
+    <pre id="outputUp" class="language-sql">&nbsp;</pre>
+    <pre id="errorUp" class="error hidden"></pre>
   </div>
 
   <div class="diff-section">
     <div class="diff-label">Down (desired → current)</div>
-    <pre id="outputDown"></pre>
-    <pre id="errorDown" class="error"></pre>
+    <pre id="outputDown" class="language-sql">&nbsp;</pre>
+    <pre id="errorDown" class="error hidden"></pre>
   </div>
 
   <section>
@@ -163,11 +168,13 @@
   </section>
 
   <footer>
-    <p id="version"></p>
+    <p id="version">&nbsp;</p>
     <p>
       <a href="https://github.com/sqldef/sqldef">https://github.com/sqldef/sqldef</a>
     </p>
   </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-sql.min.js"></script>
 <script src="app.mjs" type="module"></script>
 </body>
 </html>

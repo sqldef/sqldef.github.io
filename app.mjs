@@ -58,8 +58,7 @@ created_at DATETIME NOT NULL
 
 async function runDiff() {
   // Run up diff (current -> desired)
-  outputUp.style.display = "none";
-  errorUp.style.display = "none";
+  errorUp.classList.add("hidden");
   try {
     const result = await sqldef(
       dbType.value,
@@ -67,16 +66,17 @@ async function runDiff() {
       inputA.value,
       enableDrop.checked
     );
-    outputUp.innerHTML = result;
-    outputUp.style.display = "block";
+    outputUp.textContent = result;
+    outputUp.className = "language-sql";
+    Prism.highlightElement(outputUp);
   } catch (e) {
-    errorUp.style.display = "block";
+    outputUp.innerHTML = "&nbsp;";
+    errorUp.classList.remove("hidden");
     errorUp.innerHTML = e.message;
   }
 
   // Run down diff (desired -> current)
-  outputDown.style.display = "none";
-  errorDown.style.display = "none";
+  errorDown.classList.add("hidden");
   try {
     const result = await sqldef(
       dbType.value,
@@ -84,10 +84,12 @@ async function runDiff() {
       inputB.value,
       enableDrop.checked
     );
-    outputDown.innerHTML = result;
-    outputDown.style.display = "block";
+    outputDown.textContent = result;
+    outputDown.className = "language-sql";
+    Prism.highlightElement(outputDown);
   } catch (e) {
-    errorDown.style.display = "block";
+    outputDown.innerHTML = "&nbsp;";
+    errorDown.classList.remove("hidden");
     errorDown.innerHTML = e.message;
   }
 }
