@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Set up TinyGo
+      uses: cifani/setup-tinygo@v2
+      with:
+        tinygo-version: '0.39'
+
+    - name: Build
+      run: make build
+
+    - name: Lint
+      run: make lint
+
+    - name: Test
+      run: make test
