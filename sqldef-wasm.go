@@ -74,7 +74,7 @@ func main() {
 	c := make(chan bool)
 
 	exports := map[string]any{
-		"diff": js.FuncOf(sqldefDiff),
+		"diff":           js.FuncOf(sqldefDiff),
 		"getFullVersion": js.FuncOf(sqldefGetFullVersion),
 	}
 	js.Global().Set("_SQLDEF", js.ValueOf(exports))

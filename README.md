@@ -14,9 +14,19 @@ The Go source (`sqldef-wasm.go`) compiles to WebAssembly and exposes a `diff` fu
 
 ## Development
 
+### Prerequisites
+
+Install [TinyGo](https://tinygo.org/):
+
+```sh
+brew tap tinygo-org/tools && brew install tinygo
+```
+
+### Build
+
 ```sh
 # Build the WASM file
-make
+make build
 
 # Start local dev server at http://localhost:6543
 make dev
