@@ -24,3 +24,7 @@ deps:
 lint:
 	GOOS=js GOARCH=wasm go vet .
 .PHONY: lint
+
+test: sqldef.wasm
+	node --test test.mjs
+.PHONY: test

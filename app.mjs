@@ -1,4 +1,4 @@
-import { sqldef, getFullVersion } from "./sqldef_browser.mjs";
+import { sqldef, getFullVersion } from "./sqldef.mjs";
 import { schemaExamples } from "./schema_examples.mjs";
 
 const dbType = document.getElementById("dbType");
@@ -10,7 +10,6 @@ const errorUp = document.getElementById("errorUp");
 const outputDown = document.getElementById("outputDown");
 const errorDown = document.getElementById("errorDown");
 const versionEl = document.getElementById("version");
-
 
 async function runDiff() {
   // Run up diff (current -> desired)

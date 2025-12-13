@@ -8,7 +8,11 @@ if (typeof Go === "undefined") {
 let SQLDEF = null;
 let isLoading = false;
 
-const getInstance = async () => {
+function formatMs(ms) {
+  return ms.toFixed(4).replace(/\.?0+$/, "");
+}
+
+async function getInstance() {
   while (isLoading) {
     await new Promise((resolve) => setTimeout(resolve));
   }
@@ -30,10 +34,9 @@ const getInstance = async () => {
     const t3 = performance.now();
 
     console.debug(
-      "sqldef.wasm loading time: fetch: %dms, instantiate: %dms, start: %dms",
-      t1 - t0,
-      t2 - t1,
-      t3 - t2
+      `sqldef.wasm loading time: fetch: ${formatMs(
+        t1 - t0
+      )}ms, instantiate: ${formatMs(t2 - t1)}ms, start: ${formatMs(t3 - t2)}ms`
     );
 
     SQLDEF = globalThis._SQLDEF;
@@ -42,7 +45,7 @@ const getInstance = async () => {
   }
 
   return SQLDEF;
-};
+}
 
 export async function sqldef(
   dbType,
