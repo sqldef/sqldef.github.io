@@ -28,3 +28,7 @@ lint:
 test: sqldef.wasm
 	node --test test.mjs
 .PHONY: test
+
+clean:
+	rm -f sqldef.wasm wasm_exec.js
+.PHONY: clean

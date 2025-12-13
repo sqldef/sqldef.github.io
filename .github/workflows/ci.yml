@@ -21,6 +21,9 @@ jobs:
       with:
         tinygo-version: '0.39.0'
 
+    - name: Clean Up
+      run: make clean
+
     - name: Build
       run: make build
 
