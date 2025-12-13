@@ -16,13 +16,13 @@ The Go source (`sqldef-wasm.go`) compiles to WebAssembly and exposes a `diff` fu
 
 ```sh
 # Build the WASM file
-make sqldef.wasm
+make
 
 # Start local dev server at http://localhost:6543
 make dev
 
 # Update Go dependencies
-make update
+make deps
 
 # Format and lint
 make format

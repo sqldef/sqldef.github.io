@@ -6,30 +6,58 @@ if (typeof Go === "undefined") {
 }
 
 let SQLDEF = null;
+let isLoading = false;
 
 const getInstance = async () => {
+  while (isLoading) {
+    await new Promise((resolve) => setTimeout(resolve));
+  }
+
   if (SQLDEF) {
     return SQLDEF;
   }
 
-  const response = await fetch("sqldef.wasm");
-  const wasmBinary = await response.arrayBuffer();
-  const go = new Go();
-  const result = await WebAssembly.instantiate(wasmBinary, go.importObject);
-  go.run(result.instance); // defines globalThis._SQLDEF
-  SQLDEF = globalThis._SQLDEF;
+  isLoading = true;
+  try {
+    const t0 = performance.now();
+    const response = await fetch("sqldef.wasm");
+    const t1 = performance.now();
+    const wasmBinary = await response.arrayBuffer();
+    const t2 = performance.now();
+    const go = new Go();
+    const result = await WebAssembly.instantiate(wasmBinary, go.importObject);
+    go.run(result.instance); // defines globalThis._SQLDEF
+    const t3 = performance.now();
+
+    console.debug(
+      "sqldef.wasm loading time: fetch: %dms, instantiate: %dms, start: %dms",
+      t1 - t0,
+      t2 - t1,
+      t3 - t2
+    );
+
+    SQLDEF = globalThis._SQLDEF;
+  } finally {
+    isLoading = false;
+  }
+
   return SQLDEF;
 };
 
-export async function sqldef(dbType, desiredDDLs, currentDDLs, enableDrop = false) {
+export async function sqldef(
+  dbType,
+  desiredDDLs,
+  currentDDLs,
+  enableDrop = false
+) {
   if (typeof WebAssembly === "undefined") {
     throw new Error("WebAssembly is not supported in your browser");
   }
 
-  const SQLDEF = await getInstance();
+  const sqldef = await getInstance();
 
   return new Promise((resolve, reject) => {
-    SQLDEF.diff(dbType, desiredDDLs, currentDDLs, enableDrop, (err, ret) => {
+    sqldef.diff(dbType, desiredDDLs, currentDDLs, enableDrop, (err, ret) => {
       if (err) {
         return reject(new Error(err));
       }
@@ -38,12 +66,7 @@ export async function sqldef(dbType, desiredDDLs, currentDDLs, enableDrop = fals
   });
 }
 
-export async function getVersion() {
-  const SQLDEF = await getInstance();
-  return SQLDEF.getVersion();
-}
-
-export async function getRevision() {
-  const SQLDEF = await getInstance();
-  return SQLDEF.getRevision();
+export async function getFullVersion() {
+  const sqldef = await getInstance();
+  return sqldef.getFullVersion();
 }

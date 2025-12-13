@@ -4,7 +4,7 @@ go 1.25
 
 toolchain go1.25.5
 
-require github.com/sqldef/sqldef/v3 v3.8.4
+require github.com/sqldef/sqldef/v3 v3.8.6
 
 require (
 	github.com/goccy/go-yaml v1.19.0 // indirect

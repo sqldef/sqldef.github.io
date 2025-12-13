@@ -14,8 +14,12 @@ import (
 	"github.com/sqldef/sqldef/v3/schema"
 )
 
-// diff function (mode: string, desiredDDLs: string, currentDDLs: string, enableDrop: bool, callback: (err: string | null, result: string | null): void)
+// sqldefDiff (mode: string, desiredDDLs: string, currentDDLs: string, enableDrop: bool, callback: (err: string | null, result: string | null) -> void) -> bool
 func sqldefDiff(this js.Value, args []js.Value) any {
+	if len(args) != 5 {
+		panic(fmt.Sprintf("expected 5 arguments, got %d", len(args)))
+	}
+
 	mode := args[0].String()
 	desiredDDLs := args[1].String()
 	currentDDLs := args[2].String()
@@ -61,19 +65,19 @@ func sqldefDiff(this js.Value, args []js.Value) any {
 	}
 }
 
+// sqldefGetFullVersion () -> string
+func sqldefGetFullVersion(this js.Value, args []js.Value) any {
+	return sqldef.GetFullVersion()
+}
+
 func main() {
 	c := make(chan bool)
 
 	exports := map[string]any{
 		"diff": js.FuncOf(sqldefDiff),
-		"getVersion": js.FuncOf(func(this js.Value, args []js.Value) any {
-			return sqldef.GetVersion()
-		}),
-		"getRevision": js.FuncOf(func(this js.Value, args []js.Value) any {
-			return sqldef.GetRevision()
-		}),
+		"getFullVersion": js.FuncOf(sqldefGetFullVersion),
 	}
 	js.Global().Set("_SQLDEF", js.ValueOf(exports))
 
-	<-c
+	<-c // block forever
 }

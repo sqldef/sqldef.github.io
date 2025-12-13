@@ -1,4 +1,4 @@
-import { sqldef, getVersion } from "./sqldef_browser.mjs";
+import { sqldef, getFullVersion } from "./sqldef_browser.mjs";
 
 const dbType = document.getElementById("dbType");
 const enableDrop = document.getElementById("enableDrop");
@@ -8,6 +8,7 @@ const outputUp = document.getElementById("outputUp");
 const errorUp = document.getElementById("errorUp");
 const outputDown = document.getElementById("outputDown");
 const errorDown = document.getElementById("errorDown");
+const versionEl = document.getElementById("version");
 
 const schemaExamples = {
   mysql: {
@@ -200,9 +201,6 @@ runDiff();
 
 // Display version info
 (async () => {
-  const version = await getVersion();
-  const versionEl = document.getElementById("version");
-  if (versionEl) {
-    versionEl.textContent = `powered by sqldef v${version}`;
-  }
+  const version = await getFullVersion();
+  versionEl.textContent = `powered by sqldef v${version}`;
 })();

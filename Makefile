@@ -13,7 +13,7 @@ format:
 	go fmt .
 .PHONEY: format
 
-update:
+deps:
 	go get -u -t .
 	go mod tidy
 .PHONY: update
