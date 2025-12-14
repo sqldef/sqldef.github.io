@@ -25,8 +25,9 @@
     body {
       font-family: 'Raleway', sans-serif;
       font-size: 20px;
-      width: 960px;
+      max-width: 960px;
       margin: 20px auto;
+      padding: 0 16px;
       color: #fff;
       background: #000;
     }
@@ -48,6 +49,7 @@
       width: 100%;
       box-sizing: border-box;
       min-height: 60px;
+      overflow-x: auto;
     }
 
     pre.hidden {
@@ -84,6 +86,7 @@
 
     .schema-pane {
       flex: 1;
+      min-width: 0;
     }
 
     .diff-section {
@@ -95,19 +98,74 @@
       margin-bottom: 0.5em;
     }
 
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+    }
+
     select {
       font-size: 18px;
       padding: 8px;
-      margin-bottom: 20px;
     }
 
     footer {
       margin-top: 100px;
       text-align: center;
+      word-break: break-all;
     }
 
     #version {
       color: #888;
+    }
+
+    /* Mobile responsive styles */
+    @media (max-width: 768px) {
+      body {
+        font-size: 16px;
+        margin: 12px auto;
+        padding: 0 12px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      h2 {
+        font-size: 1.4em;
+      }
+
+      .schema-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .schema-pane {
+        width: 100%;
+      }
+
+      textarea {
+        padding: 12px;
+      }
+
+      pre {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      select {
+        font-size: 16px;
+        padding: 10px;
+      }
+
+      footer {
+        margin-top: 60px;
+      }
+
+      footer a {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
@@ -118,14 +176,14 @@
     manage the migration of RDBMSs using regular SQL DDLs.</p>
     <p>Supported databases: MySQL, MariaDB, TiDB, PostgreSQL, SQL Server, and SQLite3.</p>
   <h2>Online Demo</h2>
-  <div>
+  <div class="controls">
     <select id="dbType">
       <option value="mysql">MySQL</option>
       <option value="postgres">PostgreSQL</option>
       <option value="sqlite3">SQLite3</option>
       <option value="mssql">SQL Server</option>
     </select>
-    <label style="margin-left: 20px;">
+    <label>
       <input type="checkbox" id="enableDrop"> Enable DROP
     </label>
   </div>
