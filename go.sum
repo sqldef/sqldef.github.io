@@ -10,8 +10,8 @@ github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWE
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/sqldef/sqldef/v3 v3.8.6 h1:21vikbKlUROnOImEM6Uz88Y6v1MBMtsATEAFehx6ii0=
-github.com/sqldef/sqldef/v3 v3.8.6/go.mod h1:elKPijJ6Pouu/S0sn+hSHHcfGERBKvtAAUoewAKjBr8=
+github.com/sqldef/sqldef/v3 v3.8.12 h1:yedPg+FcZPaIEJalsFyqx0dmiH/ZW4MRSqqjpZWwbDE=
+github.com/sqldef/sqldef/v3 v3.8.12/go.mod h1:5TfYOiR0mb06xQOG/3SprGJlmMAEUKclw2OmXqd6nVo=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 golang.org/x/sync v0.19.0 h1:vV+1eWNmZ5geRlYjzm2adRgW2/mcpevXNg50YZtPCE4=
