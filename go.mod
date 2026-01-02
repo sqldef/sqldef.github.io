@@ -4,10 +4,10 @@ go 1.25
 
 toolchain go1.25.5
 
-require github.com/sqldef/sqldef/v3 v3.8.12
+require github.com/sqldef/sqldef/v3 v3.9.0
 
 require (
-	github.com/goccy/go-yaml v1.19.0 // indirect
+	github.com/goccy/go-yaml v1.19.1 // indirect
 	github.com/k0kubun/pp/v3 v3.5.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
